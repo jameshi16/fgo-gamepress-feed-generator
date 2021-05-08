@@ -59,7 +59,7 @@ class FeedItem:
     article_request = Request(self.href)
     article_request.add_header('User-Agent', falseagent)
     with urlopen(article_request) as response:
-      soup = BeautifulSoup(response.read().decode())
+      soup = BeautifulSoup(response.read().decode(), features='lxml')
       date_candidates = soup.find_all('div', 'last-updated-date')
 
       if len(date_candidates) <= 0:
@@ -107,7 +107,7 @@ class FeedItem:
 log.debug('Opening connection to %s', targeturl)
 with urlopen(request) as response:
   log.debug('Feeding page into BeautifulSoup')
-  soup = BeautifulSoup(response.read().decode())
+  soup = BeautifulSoup(response.read().decode(), features='lxml')
 
   log.debug('Getting all items in feed-item-container')
   items = soup.find_all('div', class_='feed-item-container')
