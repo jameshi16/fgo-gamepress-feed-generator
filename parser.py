@@ -97,7 +97,7 @@ class FeedItem:
 
     fe.id(self.href)
     fe.title(self.title)
-    fe.content(content='<img href=\"{:s}\"></img>'.format(self.img), src=self.href, type='CDATA')
+    fe.content(content='<img src=\"{:s}\"></img>'.format(self.img), type='html')
     fe.link(href=self.href, hreflang=self.lang)
     fe.updated(self.date.astimezone(tz=None))
     fe.author(self.authors)
