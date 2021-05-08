@@ -1,0 +1,30 @@
+name: Publish Atom Feed
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Generate feed
+        run: python parser.py
+      - name: Push feed to branch
+        run: |
+          git config --global user.name "Feed publishing bot"
+          git config --global user.email "bot@github.com"
+
+          git checkout gh-pages
+          git add atom.xml
+          git commit -m "Update built atom.xml"
+          git push 
