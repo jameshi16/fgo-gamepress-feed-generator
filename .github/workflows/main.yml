@@ -26,7 +26,9 @@ jobs:
           git config --global user.name "Feed publishing bot"
           git config --global user.email "bot@github.com"
 
+          mv atom.xml /tmp/atom.xml
           git checkout gh-pages
+          mv /tmp/atom.xml atom.xml
           git add atom.xml
           git commit -m "Update built atom.xml"
           git push 
