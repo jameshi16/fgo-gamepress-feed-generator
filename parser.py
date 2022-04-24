@@ -25,7 +25,7 @@ class NoFeedDateError(RuntimeError): pass
 class FeedItem:
   def __init__(self, item):
     candidate_titles = item.find_all('div', 'feed-item-title')
-    
+
     if len(candidate_titles) <= 0:
       raise NoFeedTitleError('Unable to find title for a feed item.')
 
@@ -59,6 +59,17 @@ class FeedItem:
     article_request = Request(self.href)
     article_request.add_header('User-Agent', falseagent)
     with urlopen(article_request) as response:
+      # special case: if the link leads to a gamepress login page, we withdraw
+      if '/cas/login' in response.url:
+        log.debug('\"%s\" Login page special case triggered. Trying special case parsing', self.title)
+        likely_match = re.search('\/sites\/default\/files\/styles\/600x315\/public\/(\d+)', candidate_images[0].img['src'])
+        if likely_match == None:
+          raise NoFeedDateError('Unable to find feed date, variant 3.1')
+
+        self.date = datetime.datetime.strptime(likely_match[1], '%Y%m%d')
+        self.authors = [fakeauthor]
+        return
+
       soup = BeautifulSoup(response.read().decode(), features='lxml')
       date_candidates = soup.find_all('div', 'last-updated-date')
 
