@@ -13,13 +13,12 @@ fakeauthor = {
     "uri": "https://gamepress.gg",
 }
 baseurl = "https://fgo.gamepress.gg/"
-# targeturl = baseurl + '/c/fategrand-order'
 logourl = "https://fgo.gamepress.gg/sites/default/files/fgo-icon.jpg"
 falseagent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246"
 request = Request(baseurl)
 request.add_header("User-Agent", falseagent)
 log = getLogger("FGO-Feed-Generator")
-log.setLevel("DEBUG")  # uncomment to get DEBUG logs
+# log.setLevel("DEBUG")  # uncomment to get DEBUG logs
 basicConfig()
 
 
